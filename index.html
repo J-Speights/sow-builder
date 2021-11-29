@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>SOW Builder</title>
+  </head>
+  <body>
+    <div class="container text-center">
+      <h1>Nimble POS SOW Builder</h1>
+    </div>
+    <div class="container p-5">
+      <form id="sow-builder-form" action="#" method="post">
+        <div class="rendered-form">
+          <div>
+            <h2>Customer Details</h2>
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <div class="formbuilder-text form-group">
+                <label for="legal_name" class="formbuilder-text-label"
+                  >Legal Name<span class="formbuilder-required">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="legal_name"
+                  id="legal_name"
+                  required="required"
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-text form-group">
+                <label for="short_name" class="formbuilder-text-label"
+                  >Short Name<span class="formbuilder-required">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  name="short_name"
+                  id="short_name"
+                  required="required"
+                  aria-required="true"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="formbuilder-text form-group">
+            <label for="msa_name" class="formbuilder-text-label"
+              >MSA Name
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="If no current MSA, use [customer shortname]-YYYY"
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="text"
+              class="form-control"
+              name="msa_name"
+              id="msa_name"
+              title="If no current MSA, use [customer shortname]-YYYY"
+            />
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <div class="formbuilder-date form-group">
+                <label for="quote_date" class="formbuilder-date-label"
+                  >Quote Date<span class="formbuilder-required">* </span
+                  ><span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Typically today's date"
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="quote_date"
+                  id="quote_date"
+                  title="Today's Date"
+                  required="required"
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-number form-group">
+                <label for="quote_lifespan" class="formbuilder-number-label"
+                  >Quote Lifespan (Days)
+                </label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="quote_lifespan"
+                  id="quote_lifespan"
+                  value="30"
+                  min="0"
+                  max="90"
+                  step="15"
+                />
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-date form-group">
+                <label for="go_live_date" class="formbuilder-date-label"
+                  >Estimated Go Live Date
+                  <span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Blank if not known, will use effective date + 90 if blank. Typically 60 - 90 days from signing."
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="go_live_date"
+                  id="go_live_date"
+                  title="Blank if not known, will use effective date + 90 if blank. Typically 60 - 90 days from signing."
+                />
+              </div>
+            </div>
+          </div>
+          <div class="formbuilder-number form-group">
+            <label for="msa_discount_percent" class="formbuilder-number-label"
+              >MSA Discount %
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="Blank if no MSA Discount"
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="number"
+              placeholder="0"
+              class="form-control"
+              name="msa_discount_percent"
+              id="msa_discount_percent"
+              title="Blank if no MSA Discount"
+            />
+          </div>
+          <div class="formbuilder-select form-group">
+            <label for="contract_length" class="formbuilder-select-label"
+              >Term
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="Length of contract"
+                ><i class="bi bi-question-circle"></i
+              ></span>
+            </label>
+            <select
+              class="form-control"
+              name="contract_length"
+              id="contract_length"
+            >
+              <option value="">Choose</option>
+              <option value="monthly">Monthly</option>
+              <option value="12_months" id="contract_length_1">
+                12 Months
+              </option>
+              <option value="24_months" id="contract_length_2">
+                24 Months
+              </option>
+              <option value="36_months">36 Months</option>
+            </select>
+          </div>
+          <div class="formbuilder-select form-group">
+            <label for="annual_billing_option" class="formbuilder-select-label"
+              >Annual Billing Option
+            </label>
+            <select
+              class="form-control"
+              name="annual_billing_option"
+              id="annual_billing_option"
+            >
+              <option value="">Choose</option>
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+          <div>
+            <h2>Deal Details</h2>
+          </div>
+          <div>
+            <h4>Environment</h4>
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <div class="formbuilder-number form-group">
+                <label
+                  for="count_standard_terminals"
+                  class="formbuilder-number-label"
+                  >Count of Standard Terminals<span class="formbuilder-required"
+                    >*
+                  </span></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="count_standard_terminals"
+                  id="count_standard_terminals"
+                  value="0"
+                  min="0"
+                  step="1"
+                  required="required"
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-number form-group">
+                <label
+                  for="count_mobile_terminals"
+                  class="formbuilder-number-label"
+                  >Count of Mobile Terminals<span class="formbuilder-required"
+                    >*
+                  </span></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="count_mobile_terminals"
+                  id="count_mobile_terminals"
+                  value="0"
+                  min="0"
+                  step="1"
+                  required="required"
+                  aria-required="true"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="formbuilder-select form-group">
+            <label for="endpoint_protection" class="formbuilder-select-label"
+              >Include Endpoint Protection Option<span
+                class="formbuilder-required"
+                >*
+              </span></label
+            >
+            <select
+              class="form-control"
+              name="endpoint_protection"
+              id="endpoint_protection"
+              required="required"
+              aria-required="true"
+            >
+              <option value="">Choose</option>
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <div class="formbuilder-number form-group">
+                <label
+                  for="count_receipt_printers"
+                  class="formbuilder-number-label"
+                  >Count of Receipt Printers
+                  <span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Receipt printers are thermal network printers (Star650 or equivalent). "
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="count_receipt_printers"
+                  id="count_receipt_printers"
+                  value="0"
+                  min="0"
+                  step="1"
+                  title="Receipt printers are thermal network printers (Star650 or equivalent). "
+                />
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-number form-group">
+                <label
+                  for="count_kitchen_printers"
+                  class="formbuilder-number-label"
+                  >Count of Kitchen Printers
+                  <span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Kitchen printers are impact network printers (Star700 or equivalent)."
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="count_kitchen_printers"
+                  value="0"
+                  min="0"
+                  step="1"
+                  id="count_kitchen_printers"
+                  title="Kitchen printers are impact network printers (Star700 or equivalent)."
+                />
+              </div>
+            </div>
+          </div>
+          <div class="formbuilder-number form-group">
+            <label for="count_cash_drawers" class="formbuilder-number-label"
+              >Count of Cash Drawers
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="Cash Drawers are assigned to a specific station."
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="number"
+              class="form-control"
+              name="count_cash_drawers"
+              value="0"
+              min="0"
+              step="1"
+              id="count_cash_drawers"
+              title="Cash Drawers are assigned to a specific station."
+            />
+          </div>
+          <div class="formbuilder-select form-group">
+            <label for="server_option" class="formbuilder-select-label"
+              >Server Option<span class="formbuilder-required">* </span
+              ><span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="Local Server is default configuration until Q3 2022. Local Server requires additional configuration labor."
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <select
+              class="form-control"
+              name="server_option"
+              id="server_option"
+              required="required"
+              aria-required="true"
+            >
+              <option value="">Choose</option>
+              <option value="local_server" id="server_option_0">
+                Local Server
+              </option>
+              <option value="cloud_server" id="server_option_1">
+                Cloud Server
+              </option>
+              <option value="custom_private_cloud" id="server_option_2">
+                Private/Customer Cloud
+              </option>
+            </select>
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <div class="formbuilder-select form-group">
+                <label for="include_firewall" class="formbuilder-select-label"
+                  >Include Firewall<span class="formbuilder-required">* </span
+                  ><span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Requires configuration labor. Opt-out only at request."
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <select
+                  class="form-control"
+                  name="include_firewall"
+                  id="include_firewall"
+                  required="required"
+                  aria-required="true"
+                >
+                  <option value="">Choose</option>
+                  <option value="false" id="include_firewall_0">No</option>
+                  <option value="true" id="include_firewall_1">Yes</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-select form-group">
+                <label for="include_failover" class="formbuilder-select-label"
+                  >Include LTE Internet Failover<span
+                    class="formbuilder-required"
+                    >* </span
+                  ><span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Requires configuration labor. Only allowed if Firewall Included"
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <select
+                  class="form-control"
+                  name="include_failover"
+                  id="include_failover"
+                  required="required"
+                  aria-required="true"
+                >
+                  <option value="">Choose</option>
+                  <option value="false" id="include_failover_0">No</option>
+                  <option value="true" id="include_failover_1">Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div>
+            <h4>Installation/Deal Options</h4>
+          </div>
+          <div class="row">
+            <div class="col-md">
+              <div class="formbuilder-select form-group">
+                <label
+                  for="include_configuration"
+                  class="formbuilder-select-label"
+                  >Include Configuration<span class="formbuilder-required"
+                    >* </span
+                  ><span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Aegis configures system and installs software. Normally Yes. Required for POSaaS"
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <select
+                  class="form-control"
+                  name="include_configuration"
+                  id="include_configuration"
+                  required="required"
+                  aria-required="true"
+                >
+                  <option value="">Choose</option>
+                  <option value="false" id="include_configuration-0">No</option>
+                  <option value="true" id="include_configuration-1">Yes</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-select form-group">
+                <label
+                  for="include_installation"
+                  class="formbuilder-select-label"
+                  >Include Installation<span class="formbuilder-required"
+                    >*
+                  </span>
+                  <span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Only available in Alabama and Southern California. Not allowed for SaaS only."
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <select
+                  class="form-control"
+                  name="include_installation"
+                  id="include_installation"
+                >
+                  <option value="">Choose</option>
+                  <option value="false" id="include_installation_0">No</option>
+                  <option value="true" id="include_installation_1">Yes</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="formbuilder-select form-group">
+                <label for="include_aftercare" class="formbuilder-select-label"
+                  >Include Aftercare<span class="formbuilder-required">* </span
+                  ><span
+                    class="tooltip-element"
+                    data-toggle="tooltip"
+                    title="Only available in Alabama and Southern California"
+                    ><i class="bi bi-question-circle"></i></span
+                ></label>
+                <select
+                  class="form-control"
+                  name="include_aftercare"
+                  id="include_aftercare"
+                  required="required"
+                  aria-required="true"
+                >
+                  <option value="">Choose</option>
+                  <option value="false" id="include_aftercare_0">No</option>
+                  <option value="true" id="include_aftercare_1">Yes</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="formbuilder-number form-group">
+            <label for="support_hours" class="formbuilder-number-label"
+              >Count of Bundled Monthly Support Hours<span
+                class="formbuilder-required"
+                >* </span
+              ><span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="Optional. Non-bundled hours will be billed a la carte at a set rate."
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="number"
+              class="form-control"
+              name="support_hours"
+              value="1"
+              min="0"
+              step="1"
+              id="support_hours"
+              title="Optional. Non-bundled hours will be billed a la carte at a set rate."
+              required="required"
+              aria-required="true"
+            />
+          </div>
+          <div class="">
+            <h4>POSaaS and Transactional Options</h4>
+          </div>
+          <div class="formbuilder-number form-group">
+            <label
+              for="security_deposit_percent"
+              class="formbuilder-number-label"
+              >Security Deposit %
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="For aaS customers. This is refundable at end of contract. Value based on customer payment history and/or MSA."
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="number"
+              class="form-control"
+              name="security_deposit_percent"
+              value="10"
+              min="0"
+              max="30"
+              step="2.5"
+              id="security_deposit_percent"
+              title="For aaS customers. This is refundable at end of contract. Value based on customer payment history and/or MSA."
+            />
+          </div>
+          <div class="formbuilder-number form-group">
+            <label
+              for="estimated_monthly_sales"
+              class="formbuilder-number-label"
+              >Estimated Monthly Sales Volume (in Dollars)
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="For Transactional Model Estimates only. Optional for non-transactional quotes."
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="number"
+              class="form-control"
+              name="estimated_monthly_sales"
+              value="50000"
+              id="estimated_monthly_sales"
+              title="For Transactional Model Estimates only. Optional for non-transactional quotes."
+            />
+          </div>
+          <div class="formbuilder-number form-group">
+            <label
+              for="minimum_transactional_fee"
+              class="formbuilder-number-label"
+              >Minimum Transactional Fee (in Dollars)
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="For Transactional Model Estimates only. Typically $250. Does not reflect TRXaaS minimums."
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="number"
+              class="form-control"
+              name="minimum_transactional_fee"
+              value="250"
+              id="minimum_transactional_fee"
+              title="For Transactional Model Estimates only. Typically $250. Does not reflect TRXaaS minimums."
+            />
+          </div>
+          <div class="formbuilder-number form-group">
+            <label
+              for="transactional_percentage"
+              class="formbuilder-number-label"
+              >Transactional Percentage
+              <span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="For Transaction Model Estimates only. 0.25% is typical."
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <input
+              type="number"
+              class="form-control"
+              name="transactional_percentage"
+              value="0.25"
+              min="0.125"
+              max="1"
+              step="0.125"
+              id="transactional_percentage"
+              title="For Transaction Model Estimates only. 0.25% is typical."
+            />
+          </div>
+          <div class="">
+            <h4 id="control-6607632">Terms and Conditions</h4>
+          </div>
+          <div class="formbuilder-select form-group">
+            <label for="billable_shipping" class="formbuilder-select-label"
+              >Billable Shipping?<span
+                class="tooltip-element"
+                data-toggle="tooltip"
+                title="Typically Yes"
+                ><i class="bi bi-question-circle"></i></span
+            ></label>
+            <select
+              class="form-control"
+              name="billable_shipping"
+              id="billable_shipping"
+            >
+              <option value="">Choose</option>
+              <option value="false" id="billable_shipping_0">No</option>
+              <option value="true" id="billable_shipping_1">Yes</option>
+            </select>
+          </div>
+          <div class="formbuilder-select form-group">
+            <label for="payment_terms" class="formbuilder-select-label"
+              >Payment Terms</label
+            >
+            <select
+              class="form-control"
+              name="payment_terms"
+              id="payment_terms"
+            >
+              <option value="">Choose</option>
+              <option value="all_due_up_front" id="payment_terms-0">
+                Hardware/Down Payment and Professional Services Fees Due at
+                Signing
+              </option>
+              <option value="hardware_up_front" id="payment_terms-1">
+                Hardware fees due at signing, Professional Services fees billed
+                at installation
+              </option>
+              <option value="half_hardware_up_front" id="payment_terms-2">
+                50% Hardware/Down Payment due at signing, Professional Services
+                and Balance due at installation
+              </option>
+              <option value="no_up_front" id="payment_terms-3">
+                No Up Front Required
+              </option>
+            </select>
+          </div>
+          <div class="formbuilder-select form-group">
+            <label for="net_terms" class="formbuilder-select-label"
+              >Net Terms</label
+            >
+            <select class="form-control" name="net_terms" id="net_terms">
+              <option value="">Choose</option>
+              <option value="net_15" id="net_terms-0">Net 15</option>
+              <option value="net_30" id="net_terms-1">Net 30</option>
+              <option value="net_45" id="net_terms-2">Net 45</option>
+            </select>
+          </div>
+          <div class="formbuilder-button form-group">
+            <button class="btn btn-primary" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <h2>JSON</h2>
+    <pre id="result"></pre>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      $(document).ready(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+      });
+    </script>
+    <script src="script.js"></script>
+  </body>
+</html>
